@@ -543,5 +543,27 @@
             // In a full production build, this would rotate the src attributes or slide a flex container.
             console.log('Rotated gallery by: ' + direction);
         }
-    </script>
+  
+    // Prevent pinch-to-zoom on iOS
+    document.addEventListener('gesturestart', function (e) {
+        e.preventDefault();
+    });
+
+    // Prevent double-tap to zoom
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+        let now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+
+    // Form submission logic from earlier
+    document.getElementById('rsvpForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Thank you! Your RSVP has been submitted.');
+        this.reset();
+    });
+</script>
 </html>
