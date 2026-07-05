@@ -479,23 +479,171 @@
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
-#welcome-screen {
-            position: fixed; /* Locks the screen in place so it doesn't scroll */
+/* --- Welcome Splash Screen --- */
+        #welcome-screen {
+            position: fixed; 
             top: 0;
             left: 0;
             width: 100%;
-            height: 100vh; /* Forces it to cover the entire viewport height */
-            background-color: #0b3103; 
-            background-image: url('bg2.png'); 
-            background-size: cover;
-            background-position: center;
-            background-blend-mode: multiply; 
+            height: 100vh;
+            /* Creates a beautiful spotlight gradient behind the envelope */
+            background: radial-gradient(circle at center, #1b4d1b 0%, #0b3103 80%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 99999; 
             transition: opacity 1s ease-out, visibility 1s; 
+        }
+
+        /* --- Envelope Animation & Styling --- */
+        .envelope-wrapper {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            perspective: 1000px; 
+            z-index: 5;
+            /* Adds a soft glow behind the envelope */
+            box-shadow: 0 0 40px rgba(226, 212, 166, 0.15); 
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: #9c8752; /* Slightly darker inside */
+            border-radius: 5px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        /* The Front Pocket */
+        .envelope-front {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3; 
+            border-left: 150px solid #c8b072;
+            border-right: 150px solid #c8b072;
+            border-bottom: 100px solid #bda15f;
+            border-top: 100px solid transparent;
+            border-radius: 5px;
+            /* Adds a subtle shadow to the inner seams */
+            filter: drop-shadow(0px -2px 2px rgba(0,0,0,0.05));
+        }
+
+        /* Text on the front of the envelope */
+        .envelope-text {
+            position: absolute;
+            bottom: 25px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 4; 
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            pointer-events: none;
+        }
+
+        .to-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            color: #6a592c; /* Ink color */
+            text-transform: uppercase;
+        }
+
+        .names-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            color: #4a3e1c; 
+        }
+
+        /* The Envelope Flap */
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            z-index: 5; 
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 110px solid #d4be7a; 
+            transform-origin: top;
+            transition: transform 0.6s ease-in-out, z-index 0s linear 0.3s;
+        }
+
+        /* The Wax Seal */
+        .wax-seal {
+            position: absolute;
+            bottom: 10px; /* Placed exactly at the tip of the flap */
+            left: -20px; /* Centered based on the border logic */
+            width: 40px;
+            height: 40px;
+            background: #8b1c1c; /* Deep burgundy wax */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e2d4a6;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.4), 0 3px 5px rgba(0,0,0,0.3);
+            border: 1px solid #701313;
+        }
+
+        /* The Card Inside */
+        .envelope-paper {
+            position: absolute;
+            bottom: 10px;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+            background: #f4f1e1; 
+            z-index: 2; 
+            border-radius: 5px;
+            padding: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 1s ease-in-out 0.6s; 
+        }
+
+        /* The golden border printed on the card */
+        .card-border {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #c8b072;
+            border-radius: 3px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* --- Animation Triggers --- */
+        .envelope-wrapper.is-opening .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1; 
+        }
+
+        .envelope-wrapper.is-opening .envelope-paper {
+            transform: translateY(-110px); 
+        }
+
+        /* Glowing Pulse Animation for the Button */
+        .pulse-btn {
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(226, 212, 166, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(226, 212, 166, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(226, 212, 166, 0); }
         }
 
         /* --- Golden Countdown Timer --- */
@@ -558,10 +706,38 @@
 
     <!-- Mobile Application Wrapper -->
     <div id="mobile-app">
+        <!-- WELCOME SPLASH SCREEN -->
         <div id="welcome-screen">
-            <h1 class="script-font" style="color: #e2d4a6; margin-bottom: 20px;">Arathy & Amal</h1>
-            <p style="color: #fff; font-family: 'Montserrat', sans-serif; letter-spacing: 2px; margin-bottom: 30px; font-size: 0.8rem;">YOU ARE INVITED</p>
-            <button id="open-invite-btn" class="btn" style="background-color: transparent; border: 2px solid #e2d4a6; color: #e2d4a6;">
+            <!-- Envelope Animation Wrapper -->
+            <div class="envelope-wrapper" id="envelope-wrapper">
+                <div class="envelope">
+                    
+                    <!-- The Envelope Flap with Wax Seal -->
+                    <div class="envelope-flap">
+                        <div class="wax-seal">A&A</div>
+                    </div>
+                    
+                    <!-- The Card Inside -->
+                    <div class="envelope-paper">
+                        <div class="card-border">
+                            <h1 class="script-font" style="font-size: 2.2rem; margin-bottom: 5px; color: #0b3103;">Arathy & Amal</h1>
+                            <p style="font-family: 'Montserrat', sans-serif; font-size: 0.65rem; letter-spacing: 2px; color: #374f21;">YOU ARE INVITED</p>
+                        </div>
+                    </div>
+                    
+                    <!-- The Front Pocket -->
+                    <div class="envelope-front"></div>
+                    
+                    <!-- Calligraphy on the Front -->
+                    <div class="envelope-text">
+                        <span class="to-text">The Wedding Of</span>
+                        <span class="names-text">Arathy & Amal</span>
+                    </div>
+
+                </div>
+            </div>
+            
+            <button id="open-invite-btn" class="btn pulse-btn" style="margin-top: 50px; background-color: transparent; border: 2px solid #e2d4a6; color: #e2d4a6; z-index: 10; transition: opacity 0.5s;">
                 TAP TO OPEN <i class="fa-solid fa-envelope-open-text"></i>
             </button>
         </div>
@@ -592,7 +768,7 @@
 
       
     <section id="events">
-            <h3 class="section-title">Wedding Events</h3>
+            <h3 class="section-title">Events Timeline </h3>
             
             <div class="timeline">
                 <div class="event-item">
@@ -827,6 +1003,38 @@
             document.getElementById("wedding-countdown").innerHTML = "<div style='color:#e2d4a6; font-family:\"Cormorant Garamond\", serif; font-size:1.8rem; text-align:center;'>The Big Day is Here! ♡</div>";
         }
     }, 1000);
+
+    // 1. Handle the "Tap to Open" button
+    openBtn.addEventListener('click', function() {
+        // Trigger the envelope opening animation
+        const envelope = document.getElementById('envelope-wrapper');
+        envelope.classList.add('is-opening');
+
+        // Hide the "Tap to Open" button gracefully
+        openBtn.style.opacity = '0';
+        openBtn.style.pointerEvents = 'none';
+
+        // Play the background music
+        bgMusic.play().then(() => {
+            isMusicPlaying = true;
+            musicBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        }).catch(error => {
+            console.log("Audio play failed:", error);
+        });
+
+        // Wait 3 seconds for the animation to play and the card to be read, then fade to main app
+        setTimeout(() => {
+            welcomeScreen.style.opacity = '0';
+            
+            // Unlock the page scroll
+            document.body.style.overflow = 'auto';
+
+            setTimeout(() => {
+                welcomeScreen.style.visibility = 'hidden';
+                welcomeScreen.style.display = 'none';
+            }, 1000); 
+        }, 3000); 
+    });
     
 </script>
 </html>
