@@ -122,8 +122,8 @@
         /* --- Buttons --- */
         .btn {
             background-color: var(--btn-green);
-            color: #374f21;
-            border: 1px solid #374f21;
+            color: #b39b5e;
+            border: 1px solid #b39b5e;
             padding: 12px 24px;
             border-radius: 25px;
             font-family: 'Montserrat', sans-serif;
@@ -135,7 +135,8 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            margin-top: 15px;
+            margin-top: 5%;
+            margin-bottom: 5%;
         }
 
         /* --- Hero Section --- */
@@ -242,39 +243,58 @@
             background-size: 100% 100%;
             background-position: center;
         }
+       /* --- Timeline Structure & Line --- */
         .timeline {
             position: relative;
             margin: 22px auto;
-            max-width: min(236px, 90vw);
+            max-width: min(280px, 90vw); /* Gives it good central alignment */
         }
+
         .timeline::before {
             content: '';
             position: absolute;
-            left: 45px;
-            top: 10px;
-            bottom: 10px;
-            width: 1px;
-            background-color: var(--line-color);
+            top: 20px;
+            bottom: 20px; /* Prevents the line from sticking out the bottom */
+            left: 29px; /* Perfectly centers a 2px line behind your 60px icons */
+            width: 2px;
+            background-color: #c8b072; /* Premium gold color */
+            z-index: 1; 
         }
+
+        /* --- Scroll Animation Starting State --- */
         .event-item {
             display: flex;
             align-items: center;
             margin-bottom: 25px;
             position: relative;
             text-align: left;
+            z-index: 2; /* Ensures items sit on top of the golden line */
+            
+            /* Hidden state for the animation */
+            opacity: 0; 
+            transform: translateY(40px); /* Pushes it down slightly */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
         }
+
+        /* --- Scroll Animation Trigger State --- */
+        /* JavaScript will add this class when the user scrolls to the item */
+        .event-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .event-icon {
             width: 60px;
             height: 60px;
             background: #fff;
             border-radius: 50%;
-            border: 1px solid var(--line-color);
+            border: 2px solid #c8b072; /* Matches the line color */
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 2;
+            z-index: 3;
             margin-right: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
             flex-shrink: 0;
         }
         .event-icon img { width: 35px; }
@@ -293,6 +313,7 @@
         /* --- Gallery Section --- */
         #gallery {
             text-align: center;
+            background-color:rgba(50, 76, 32);
         }
         .gallery-carousel {
             display: flex;
@@ -316,7 +337,7 @@
         }
         .arrow-btn {
             background: var(--nav-bg-green);
-            color: #fff;
+            color: #b39b5e;
             border: none;
             width: clamp(24px, 7vw, 30px);
             height: clamp(24px, 7vw, 30px);
@@ -409,9 +430,9 @@
          h2.section-title {
             font-size: 2.2rem;
             text-align: center;
-            margin-bottom: 26px;
-            color: rgb(8, 53, 8);
-            margin-top: 48px;
+            margin-bottom: -27px;
+            color: #b39b5e;
+            margin-top: 6px;
         }
           h2.section1-title {
             font-size: 2.2rem;
@@ -466,7 +487,7 @@
     top: 20px;
     left: 20px;
     background: rgba(11, 49, 3, 0.7); /* Transparent dark green matching your theme */
-    color: #e2d4a6; /* Gold icon */
+    color: #b39b5e; /* Gold icon */
     border: none;
     width: 40px;
     height: 40px;
@@ -1034,6 +1055,36 @@
                 welcomeScreen.style.display = 'none';
             }, 1000); 
         }, 3000); 
+    });
+    // --- SCROLL ANIMATION LOGIC (INTERSECTION OBSERVER) ---
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select all the event items we want to animate
+        const eventItems = document.querySelectorAll('.event-item');
+
+        // Configure the observer
+        const observerOptions = {
+            root: null, // Uses the device viewport
+            rootMargin: '0px',
+            threshold: 0.2 // Triggers when 20% of the element is visible on screen
+        };
+
+        const eventObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                // If the item scrolls into view
+                if (entry.isIntersecting) {
+                    // Add the 'is-visible' class to trigger the CSS animation
+                    entry.target.classList.add('is-visible');
+                    
+                    // Stop observing this item so the animation only happens once
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Attach the observer to every single event item
+        eventItems.forEach(item => {
+            eventObserver.observe(item);
+        });
     });
     
 </script>
