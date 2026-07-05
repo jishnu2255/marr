@@ -953,7 +953,7 @@
             padding: 20px;
         }
 
-        /* Map Iframe Wrapper */
+      /* Map Iframe Wrapper */
         .map-wrapper {
             width: 100%;
             height: 220px;
@@ -961,8 +961,6 @@
             border: 1px solid rgba(226, 212, 166, 0.4);
             overflow: hidden;
             margin: 15px 0;
-            /* Prevents getting stuck scrolling the map instead of the page */
-            pointer-events: none; 
             box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
 
@@ -1139,10 +1137,10 @@
             </div>
 
            <!-- Event Card 1: Haldi -->
-            <div class="flip-container" onclick="this.classList.toggle('flipped')">
+            <div class="flip-container">
                 <div class="flipper">
                     <!-- FRONT -->
-                    <div class="event-card-creative front">
+                    <div class="event-card-creative front" onclick="this.closest('.flip-container').classList.add('flipped')">
                         <div class="card-date-block">
                             <div class="line"></div>
                             <div class="date-wrap">
@@ -1176,18 +1174,21 @@
                     <div class="event-card-creative back">
                         <h3 class="card-script-title" style="font-size: 2.8rem; margin-bottom: 5px;">Venue Location</h3>
                         <div class="map-wrapper">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3941.9669206830017!2d76.67177197501715!3d8.882667491172926!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zOMKwNTInNTcuNiJOIDc2wrA0MCcyNy43IkU!5e0!3m2!1sen!2sin!4v1783270359590!5m2!1sen!2sin" ></iframe>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3941.9669206830017!2d76.67177197501715!3d8.882667491172926!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zOMKwNTInNTcuNiJOIDc2wrA0MCcyNy43IkU!5e0!3m2!1sen!2sin!4v1783276845753!5m2!1sen!2sin" ></iframe>
                         </div>
-                        <div class="flip-hint"><i class="fa-solid fa-rotate-left"></i> Tap to go back</div>
+                        <!-- FIX: Using .closest() for a bulletproof flip-back button -->
+                        <div class="flip-hint" style="cursor: pointer; padding: 15px 0 5px; width: 100%; border-top: 1px solid rgba(226,212,166,0.2); margin-top: 5px;" onclick="this.closest('.flip-container').classList.remove('flipped')">
+                            <i class="fa-solid fa-rotate-left"></i> Tap here to go back
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Event Card 2: Sangeeth -->
-            <div class="flip-container" onclick="this.classList.toggle('flipped')">
+            <div class="flip-container">
                 <div class="flipper">
                     <!-- FRONT -->
-                    <div class="event-card-creative front">
+                    <div class="event-card-creative front" onclick="this.closest('.flip-container').classList.add('flipped')">
                         <div class="card-date-block">
                             <div class="line"></div>
                             <div class="date-wrap">
@@ -1221,18 +1222,20 @@
                     <div class="event-card-creative back">
                         <h3 class="card-script-title" style="font-size: 2.8rem; margin-bottom: 5px;">Venue Location</h3>
                         <div class="map-wrapper">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3941.9669206830017!2d76.67177197501715!3d8.882667491172926!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zOMKwNTInNTcuNiJOIDc2wrA0MCcyNy43IkU!5e0!3m2!1sen!2sin!4v1783270359590!5m2!1sen!2sin" ></iframe>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3941.9669206830017!2d76.67177197501715!3d8.882667491172926!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zOMKwNTInNTcuNiJOIDc2wrA0MCcyNy43IkU!5e0!3m2!1sen!2sin!4v1783276845753!5m2!1sen!2sin" ></iframe>
                         </div>
-                        <div class="flip-hint"><i class="fa-solid fa-rotate-left"></i> Tap to go back</div>
+                        <div class="flip-hint" style="cursor: pointer; padding: 15px 0 5px; width: 100%; border-top: 1px solid rgba(226,212,166,0.2); margin-top: 5px;" onclick="this.closest('.flip-container').classList.remove('flipped')">
+                            <i class="fa-solid fa-rotate-left"></i> Tap here to go back
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Event Card 3: Reception -->
-            <div class="flip-container" onclick="this.classList.toggle('flipped')">
+            <div class="flip-container">
                 <div class="flipper">
                     <!-- FRONT -->
-                    <div class="event-card-creative front">
+                    <div class="event-card-creative front" onclick="this.closest('.flip-container').classList.add('flipped')">
                         <div class="card-date-block">
                             <div class="line"></div>
                             <div class="date-wrap">
@@ -1266,23 +1269,25 @@
                     <div class="event-card-creative back">
                         <h3 class="card-script-title" style="font-size: 2.8rem; margin-bottom: 5px;">Venue Location</h3>
                         <div class="map-wrapper">
-                            <iframe src="https://maps.google.com/maps?q=Mangalya+Convention+Centre,Kottayam&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3942.1523377806357!2d76.67692357568203!3d8.865406791526887!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b05e37c78977fc1%3A0xf076cfe516075d4!2sMangalya%20convention%20center!5e0!3m2!1sen!2sin!4v1783277023376!5m2!1sen!2sin" ></iframe>
                         </div>
-                        <div class="flip-hint"><i class="fa-solid fa-rotate-left"></i> Tap to go back</div>
+                        <div class="flip-hint" style="cursor: pointer; padding: 15px 0 5px; width: 100%; border-top: 1px solid rgba(226,212,166,0.2); margin-top: 5px;" onclick="this.closest('.flip-container').classList.remove('flipped')">
+                            <i class="fa-solid fa-rotate-left"></i> Tap here to go back
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Event Card 4: Wedding -->
-            <div class="flip-container" onclick="this.classList.toggle('flipped')">
+            <div class="flip-container">
                 <div class="flipper">
                     <!-- FRONT -->
-                    <div class="event-card-creative front">
+                    <div class="event-card-creative front" onclick="this.closest('.flip-container').classList.add('flipped')">
                         <div class="card-date-block">
                             <div class="line"></div>
                             <div class="date-wrap">
                                 <span class="month">AUG</span>
-                                <span class="day">30</span>
+                                <span class="day">20</span>
                                 <span class="year">2026</span>
                             </div>
                             <div class="line"></div>
@@ -1315,7 +1320,9 @@
                         <div class="map-wrapper">
                             <iframe src="https://maps.google.com/maps?q=Vismaya+Convention+Centre,Kundara&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
                         </div>
-                        <div class="flip-hint"><i class="fa-solid fa-rotate-left"></i> Tap to go back</div>
+                        <div class="flip-hint" style="cursor: pointer; padding: 15px 0 5px; width: 100%; border-top: 1px solid rgba(226,212,166,0.2); margin-top: 5px;" onclick="this.closest('.flip-container').classList.remove('flipped')">
+                            <i class="fa-solid fa-rotate-left"></i> Tap here to go back
+                        </div>
                     </div>
                 </div>
             </div>
