@@ -1066,8 +1066,35 @@
             /* Prevents images from getting awkwardly split across columns */
             break-inside: avoid; 
         }
+
+
+        /* --- SECURITY: PREVENT TEXT SELECTION & IMAGE DRAGGING --- */
+        body {
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none;    /* Firefox */
+            -ms-user-select: none;     /* IE10+/Edge */
+            user-select: none;         /* Standard */
+            -webkit-touch-callout: none; /* Disables the tap-and-hold popup on iOS */
+        }
+
+        /* Allows users to still type in the RSVP form */
+        input, select, textarea {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        img {
+            /* Prevents dragging images to save them */
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            
+        }
         
-        
+        /* --- security feature end --- */
 </style>
 
 <body >
@@ -1077,7 +1104,7 @@
     <div id="falling-leaves" class="leaves-container"></div>
     <div id="desktop-warning">
         <h1>Mobile View Required</h1>
-        <p>Please use a mobile device or switch to mobile view in your browser's developer tools for a better display.</p>
+        <p>Please use a mobile device for a better display.</p>
     </div>
 
     <!-- Mobile Application Wrapper -->
@@ -1667,5 +1694,39 @@
         // Unlocks the background when closed
         document.body.style.overflow = 'auto'; 
     }
+
+
+//security feature
+// --- SECURITY: PREVENT INSPECT ELEMENT & RIGHT-CLICK ---
+    
+    // 1. Disable Right-Click (Context Menu)
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+
+    // 2. Disable common developer keyboard shortcuts
+    document.onkeydown = function(e) {
+        // Disable F12
+        if (e.keyCode === 123) {
+            return false;
+        }
+        // Disable Ctrl+Shift+I (Windows) / Cmd+Opt+I (Mac)
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+            return false;
+        }
+        // Disable Ctrl+Shift+C (Inspect Element)
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
+            return false;
+        }
+        // Disable Ctrl+Shift+J (Console)
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+            return false;
+        }
+        // Disable Ctrl+U (View Source)
+        if (e.ctrlKey && e.keyCode === 85) {
+            return false;
+        }
+    };
+
 </script>
 </html>
