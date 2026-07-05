@@ -497,6 +497,51 @@
             z-index: 99999; 
             transition: opacity 1s ease-out, visibility 1s; 
         }
+
+        /* --- Golden Countdown Timer --- */
+.golden-countdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 10px;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    /* If you need to force a dark green background behind it, uncomment the line below */
+    /* background-color: var(--text-dark-green, #0b3103); */
+}
+
+.time-box {
+    margin-top: 135%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #b39b5e; /* Medium Gold */
+    border-radius: 8px;
+    padding: 10px 8px;
+    min-width: 65px;
+    background: rgba(226, 212, 166, 0.1); /* Very subtle light gold tint */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+}
+
+.time-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    color: #e2d4a6; /* Light Gold */
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.time-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.55rem;
+    color: #b39b5e; /* Medium Gold */
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
         
         
 </style>
@@ -522,8 +567,29 @@
         </div>
         
     <button class="icon-btn" id="music-btn"><i class="fa-solid fa-music"></i></button>
-    <div class="first"></div>
+    <div class="first">
+            <!-- Golden Wedding Countdown -->
+<div id="wedding-countdown" class="golden-countdown">
+    <div class="time-box">
+        <span id="days" class="time-num">00</span>
+        <span class="time-label">Days</span>
+    </div>
+    <div class="time-box">
+        <span id="hours" class="time-num">00</span>
+        <span class="time-label">Hours</span>
+    </div>
+    <div class="time-box">
+        <span id="minutes" class="time-num">00</span>
+        <span class="time-label">Mins</span>
+    </div>
+    <div class="time-box">
+        <span id="seconds" class="time-num">00</span>
+        <span class="time-label">Secs</span>
+    </div>
+</div>
       
+    </div>
+
       
     <section id="events">
             <h3 class="section-title">Wedding Events</h3>
@@ -730,6 +796,37 @@
         }
         isMusicPlaying = !isMusicPlaying;
     });
+    // --- WEDDING COUNTDOWN LOGIC ---
+    // Set the date we're counting down to: August 30, 2026 at 11:00 AM
+    const countDownDate = new Date("Aug 30, 2026 11:00:00").getTime();
+
+    // Update the count down every 1 second
+    const countdownInterval = setInterval(function() {
+
+        // Get today's date and time
+        const now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        const distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the result in the elements, adding a leading zero if under 10
+        document.getElementById("days").innerHTML = days < 10 ? '0' + days : days;
+        document.getElementById("hours").innerHTML = hours < 10 ? '0' + hours : hours;
+        document.getElementById("minutes").innerHTML = minutes < 10 ? '0' + minutes : minutes;
+        document.getElementById("seconds").innerHTML = seconds < 10 ? '0' + seconds : seconds;
+
+        // If the count down is finished, display a message
+        if (distance < 0) {
+            clearInterval(countdownInterval);
+            document.getElementById("wedding-countdown").innerHTML = "<div style='color:#e2d4a6; font-family:\"Cormorant Garamond\", serif; font-size:1.8rem; text-align:center;'>The Big Day is Here! ♡</div>";
+        }
+    }, 1000);
     
 </script>
 </html>
