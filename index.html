@@ -332,26 +332,29 @@
         #rsvp {
             background-size: cover;
         }
-        .rsvp-form {
+       .rsvp-form {
             background: rgba(255, 255, 255, 0.6);
             border: 1px solid var(--line-color);
             border-radius: 12px;
-            padding: 30px 20px;
+            padding: 40px 20px; /* Gives nice breathing room inside the box */
             max-width: min(320px, 90vw);
-            min-height: 418px;
-            margin: 5px auto;
+            margin: 20px auto; 
             backdrop-filter: blur(5px);
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            
+            /* The magic lines that fix the structure: */
+            display: flex; 
+            flex-direction: column;
+            gap: 20px; /* Adds perfect, even spacing between the inputs and button */
         }
+        
         .input-group {
-            margin-top: 1px;
-            margin-bottom: 15px;
+            width: 100%;
+            margin: 0; /* Removed the old margins since 'gap' handles it now */
         }
+
         .input-group input, .input-group select {
             width: 100%;
-            padding: 16px 7px;
+            padding: 16px 15px; /* Adjusted padding to look better */
             border: 1px solid var(--line-color);
             border-radius: 8px;
             background: #FAFAFA;
@@ -361,12 +364,7 @@
             outline: none;
         }
         
-        .rsvp-envelope-container {
-            position: relative;
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-        }
+       
        
         .floral-corner {
             position: absolute;
@@ -481,14 +479,13 @@
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
-/* --- Welcome Splash Screen --- */
-        #welcome-screen {
-            position: absolute;
+#welcome-screen {
+            position: fixed; /* Locks the screen in place so it doesn't scroll */
             top: 0;
             left: 0;
             width: 100%;
-            height: 100vh;
-            background-color: #0b3103; /* Replaced variable with a hardcoded dark green */
+            height: 100vh; /* Forces it to cover the entire viewport height */
+            background-color: #0b3103; 
             background-image: url('bg2.png'); 
             background-size: cover;
             background-position: center;
@@ -698,8 +695,14 @@
     
     let isMusicPlaying = false;
 
+    // Lock the page scroll immediately when the script runs
+    document.body.style.overflow = 'hidden';
+
     // 1. Handle the "Tap to Open" button
     openBtn.addEventListener('click', function() {
+        // Unlock the page scroll so the user can see the invitation
+        document.body.style.overflow = 'auto';
+        
         // Play the music
         bgMusic.play().then(() => {
             isMusicPlaying = true;
@@ -713,7 +716,7 @@
         setTimeout(() => {
             welcomeScreen.style.visibility = 'hidden';
             welcomeScreen.style.display = 'none';
-        }, 1000); // Waits 1 second for the fade transition to finish
+        }, 1000); 
     });
 
     // 2. Handle the top-left pause/play button
