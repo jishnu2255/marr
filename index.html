@@ -330,6 +330,9 @@
             border: 2px solid #fff;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             flex-shrink: 0;
+            
+            /* ADD THIS LINE FOR SMOOTH FADING */
+            transition: opacity 0.3s ease-in-out, width 0.3s, height 0.3s;
         }
         .gallery-img.main {
             width: clamp(70px, 24vw, 110px);
@@ -839,16 +842,18 @@
             <img src="section_divider.png" alt="Elephants Divider" style="width: 23%; display:block; margin: 10px auto 0;">
             <h2 class="section-title">Gallery</h2>
             
-            <div class="gallery-carousel">
-                <button class="arrow-btn" onclick="rotateGallery(-1)">&#10094;</button>
-                <img src="GAL1.jpeg" class="gallery-img" alt="Gallery 1">
-                <img src="GAL2.jpeg" class="gallery-img main" alt="Gallery Main">
-                <img src="GAL3.jpeg" class="gallery-img" alt="Gallery 2">
+           <div class="gallery-carousel">
+                <button class="arrow-btn" onclick="manualRotate(-1)">&#10094;</button>
                 
-                <button class="arrow-btn" onclick="rotateGallery(1)">&#10095;</button>
+                <!-- Added IDs to easily target these with JavaScript -->
+                <img src="GAL1.jpeg" id="gal-img-1" class="gallery-img" alt="Gallery 1">
+                <img src="GAL2.jpeg" id="gal-img-2" class="gallery-img main" alt="Gallery Main">
+                <img src="GAL3.jpeg" id="gal-img-3" class="gallery-img" alt="Gallery 2">
+                
+                <button class="arrow-btn" onclick="manualRotate(1)">&#10095;</button>
             </div>
 
-            <button class="btn">VIEW ALL PHOTOS 🖼️</button>
+            <button class="btn">VIEW ALL PHOTOS </button>
         </section> 
         <div id="rsvp" >
             <h2 class="section1-title">Kindly RSVP</h2>
@@ -878,26 +883,18 @@
 </div>
 </body>
 <!-- Interaction Script -->
-    <script>
-        // Prevent default form submission to mimic functionality
-        document.getElementById('rsvpForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('RSVP Submitted Successfully!');
-            this.reset();
-        });
+  <script>
+    // --- 1. FORM & ZOOM PREVENTION LOGIC ---
+    document.getElementById('rsvpForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Thank you! Your RSVP has been submitted.');
+        this.reset();
+    });
 
-        // Simple gallery interaction placeholder
-        function rotateGallery(direction) {
-            // In a full production build, this would rotate the src attributes or slide a flex container.
-            console.log('Rotated gallery by: ' + direction);
-        }
-    
-    // Prevent pinch-to-zoom on iOS
     document.addEventListener('gesturestart', function (e) {
         e.preventDefault();
     });
 
-    // Prevent double-tap to zoom
     let lastTouchEnd = 0;
     document.addEventListener('touchend', function (event) {
         let now = (new Date()).getTime();
@@ -907,66 +904,45 @@
         lastTouchEnd = now;
     }, false);
 
-    // Form submission logic from earlier
-    document.getElementById('rsvpForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('Thank you! Your RSVP has been submitted.');
-        this.reset();
-    });
 
-    // --- LEAF FALLING LOGIC ---
+    // --- 2. FALLING LEAVES LOGIC ---
     function createLeaves() {
         const container = document.getElementById('falling-leaves');
-        const numLeaves = 15; // Change this to increase/decrease the amount of leaves
-
+        const numLeaves = 15; 
         for (let i = 0; i < numLeaves; i++) {
             const leaf = document.createElement('i');
-            // Use FontAwesome leaf icon
             leaf.classList.add('fa-solid', 'fa-leaf', 'leaf');
-            
-            // Randomize horizontal starting position
             leaf.style.left = Math.random() * 100 + 'vw';
-            
-            // Randomize fall duration (between 6 and 12 seconds)
             const fallDuration = (Math.random() * 6 + 6) + 's';
-            
-            // Randomize sway duration (between 2 and 4 seconds)
             const swayDuration = (Math.random() * 2 + 2) + 's';
-            
-            // Randomize start delay so they don't all fall at once
             const delay = (Math.random() * 10) + 's';
-
-            // Randomize leaf size (between 12px and 22px)
             const size = (Math.random() * 10 + 12) + 'px';
             leaf.style.fontSize = size;
-
-            // Apply randomized styles
             leaf.style.animationDuration = `${fallDuration}, ${swayDuration}`;
             leaf.style.animationDelay = `${delay}, ${delay}`;
-            
             container.appendChild(leaf);
         }
     }
-    
-    // Start generating leaves once the page loads
     window.addEventListener('load', createLeaves);
-    // --- BACKGROUND MUSIC & WELCOME SCREEN LOGIC ---
+
+
+    // --- 3. BACKGROUND MUSIC & ENVELOPE SPLASH SCREEN ---
     const musicBtn = document.getElementById('music-btn');
     const bgMusic = document.getElementById('bg-music');
     const welcomeScreen = document.getElementById('welcome-screen');
     const openBtn = document.getElementById('open-invite-btn');
     
     let isMusicPlaying = false;
+    document.body.style.overflow = 'hidden'; // Locks scroll on load
 
-    // Lock the page scroll immediately when the script runs
-    document.body.style.overflow = 'hidden';
-
-    // 1. Handle the "Tap to Open" button
     openBtn.addEventListener('click', function() {
-        // Unlock the page scroll so the user can see the invitation
-        document.body.style.overflow = 'auto';
+        // Trigger envelope animation
+        const envelope = document.getElementById('envelope-wrapper');
+        envelope.classList.add('is-opening');
         
-        // Play the music
+        openBtn.style.opacity = '0';
+        openBtn.style.pointerEvents = 'none';
+
         bgMusic.play().then(() => {
             isMusicPlaying = true;
             musicBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
@@ -974,15 +950,17 @@
             console.log("Audio play failed:", error);
         });
 
-        // Fade out and hide the welcome screen
-        welcomeScreen.style.opacity = '0';
+        // Wait 3 seconds for animation, then fade out screen and unlock scroll
         setTimeout(() => {
-            welcomeScreen.style.visibility = 'hidden';
-            welcomeScreen.style.display = 'none';
-        }, 1000); 
+            welcomeScreen.style.opacity = '0';
+            document.body.style.overflow = 'auto'; 
+            setTimeout(() => {
+                welcomeScreen.style.visibility = 'hidden';
+                welcomeScreen.style.display = 'none';
+            }, 1000); 
+        }, 3000); 
     });
 
-    // 2. Handle the top-left pause/play button
     musicBtn.addEventListener('click', function() {
         if (isMusicPlaying) {
             bgMusic.pause();
@@ -993,99 +971,91 @@
         }
         isMusicPlaying = !isMusicPlaying;
     });
-    // --- WEDDING COUNTDOWN LOGIC ---
-    // Set the date we're counting down to: August 30, 2026 at 11:00 AM
+
+
+    // --- 4. WEDDING COUNTDOWN LOGIC ---
     const countDownDate = new Date("Aug 30, 2026 11:00:00").getTime();
-
-    // Update the count down every 1 second
     const countdownInterval = setInterval(function() {
-
-        // Get today's date and time
         const now = new Date().getTime();
-
-        // Find the distance between now and the count down date
         const distance = countDownDate - now;
 
-        // Time calculations for days, hours, minutes and seconds
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        // Display the result in the elements, adding a leading zero if under 10
         document.getElementById("days").innerHTML = days < 10 ? '0' + days : days;
         document.getElementById("hours").innerHTML = hours < 10 ? '0' + hours : hours;
         document.getElementById("minutes").innerHTML = minutes < 10 ? '0' + minutes : minutes;
         document.getElementById("seconds").innerHTML = seconds < 10 ? '0' + seconds : seconds;
 
-        // If the count down is finished, display a message
         if (distance < 0) {
             clearInterval(countdownInterval);
             document.getElementById("wedding-countdown").innerHTML = "<div style='color:#e2d4a6; font-family:\"Cormorant Garamond\", serif; font-size:1.8rem; text-align:center;'>The Big Day is Here! ♡</div>";
         }
     }, 1000);
 
-    // 1. Handle the "Tap to Open" button
-    openBtn.addEventListener('click', function() {
-        // Trigger the envelope opening animation
-        const envelope = document.getElementById('envelope-wrapper');
-        envelope.classList.add('is-opening');
 
-        // Hide the "Tap to Open" button gracefully
-        openBtn.style.opacity = '0';
-        openBtn.style.pointerEvents = 'none';
+    // --- 5. GALLERY AUTO-SLIDER LOGIC ---
+    let galleryAssets = ["GAL1.jpeg", "GAL2.jpeg", "GAL3.jpeg", "GAL4.jpeg", "GAL5.jpeg", "GAL6.png"];
 
-        // Play the background music
-        bgMusic.play().then(() => {
-            isMusicPlaying = true;
-            musicBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-        }).catch(error => {
-            console.log("Audio play failed:", error);
-        });
+    function rotateGallery(direction) {
+        const img1 = document.getElementById('gal-img-1');
+        const img2 = document.getElementById('gal-img-2');
+        const img3 = document.getElementById('gal-img-3');
+        const allImages = [img1, img2, img3];
 
-        // Wait 3 seconds for the animation to play and the card to be read, then fade to main app
+        allImages.forEach(img => img.style.opacity = '0');
+
         setTimeout(() => {
-            welcomeScreen.style.opacity = '0';
-            
-            // Unlock the page scroll
-            document.body.style.overflow = 'auto';
+            if (direction === 1) {
+                galleryAssets.push(galleryAssets.shift());
+            } else {
+                galleryAssets.unshift(galleryAssets.pop());
+            }
 
-            setTimeout(() => {
-                welcomeScreen.style.visibility = 'hidden';
-                welcomeScreen.style.display = 'none';
-            }, 1000); 
-        }, 3000); 
-    });
-    // --- SCROLL ANIMATION LOGIC (INTERSECTION OBSERVER) ---
+            img1.src = galleryAssets[0];
+            img2.src = galleryAssets[1];
+            img3.src = galleryAssets[2];
+
+            allImages.forEach(img => img.style.opacity = '1');
+        }, 300); 
+    }
+
+    let autoScrollTimer = setInterval(() => {
+        rotateGallery(1);
+    }, 3500);
+
+    function manualRotate(direction) {
+        clearInterval(autoScrollTimer); 
+        rotateGallery(direction);
+        autoScrollTimer = setInterval(() => {
+            rotateGallery(1);
+        }, 3500);
+    }
+
+
+    // --- 6. SCROLL TIMELINE ANIMATION ---
     document.addEventListener('DOMContentLoaded', function() {
-        // Select all the event items we want to animate
         const eventItems = document.querySelectorAll('.event-item');
-
-        // Configure the observer
         const observerOptions = {
-            root: null, // Uses the device viewport
+            root: null, 
             rootMargin: '0px',
-            threshold: 0.2 // Triggers when 20% of the element is visible on screen
+            threshold: 0.25 
         };
 
         const eventObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
-                // If the item scrolls into view
                 if (entry.isIntersecting) {
-                    // Add the 'is-visible' class to trigger the CSS animation
                     entry.target.classList.add('is-visible');
-                    
-                    // Stop observing this item so the animation only happens once
                     observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
 
-        // Attach the observer to every single event item
         eventItems.forEach(item => {
             eventObserver.observe(item);
         });
     });
-    
 </script>
 </html>
