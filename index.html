@@ -1077,27 +1077,12 @@
                     </div>
                 </div>
                 
-                <div class="event-item">
-                    <div class="event-icon"><img src="ganesha_icon.png" alt="Mehndi"></div>
-                    <div class="event-details">
-                        <h3 class="serif">Mehandi Ceremony</h3>
-                        <p>25 MAY 2025<br>11:00 AM ONWARDS</p>
-                    </div>
-                </div>
                 
                 <div class="event-item">
                     <div class="event-icon"><img src="ganesha_icon.png" alt="Sangeet"></div>
                     <div class="event-details">
                         <h3 class="serif">Sangeet</h3>
-                        <p>26 MAY 2025<br>11:00 AM ONWARDS</p>
-                    </div>
-                </div>
-
-                <div class="event-item">
-                    <div class="event-icon"><img src="ganesha_icon.png" alt="Wedding"></div>
-                    <div class="event-details">
-                        <h3 class="serif">Wedding Ceremony</h3>
-                        <p>27 MAY 2025<br>11:00 AM ONWARDS</p>
+                        <p>28 AUG 2026<br>06:00 PM ONWARDS</p>
                     </div>
                 </div>
 
@@ -1105,9 +1090,19 @@
                     <div class="event-icon"><img src="ganesha_icon.png" alt="Reception"></div>
                     <div class="event-details">
                         <h3 class="serif">Reception</h3>
-                        <p>27 MAY 2025<br>07:00 PM ONWARDS</p>
+                        <p>29 AUG 2026<br>03:30 PM ONWARDS</p>
                     </div>
                 </div>
+
+                <div class="event-item">
+                    <div class="event-icon"><img src="ganesha_icon.png" alt="Wedding"></div>
+                    <div class="event-details">
+                        <h3 class="serif">Wedding Ceremony</h3>
+                        <p>30 AUG 2026<br>11:00 AM ONWARDS</p>
+                    </div>
+                </div>
+
+                
             </div>
 
          </section>
@@ -1181,7 +1176,7 @@
                     <div class="event-card-creative back">
                         <h3 class="card-script-title" style="font-size: 2.8rem; margin-bottom: 5px;">Venue Location</h3>
                         <div class="map-wrapper">
-                            <iframe src="https://maps.google.com/maps?q=Kollam,Kerala&t=&z=10&ie=UTF8&iwloc=&output=embed"></iframe>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3941.9669206830017!2d76.67177197501715!3d8.882667491172926!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zOMKwNTInNTcuNiJOIDc2wrA0MCcyNy43IkU!5e0!3m2!1sen!2sin!4v1783270359590!5m2!1sen!2sin" ></iframe>
                         </div>
                         <div class="flip-hint"><i class="fa-solid fa-rotate-left"></i> Tap to go back</div>
                     </div>
@@ -1226,7 +1221,7 @@
                     <div class="event-card-creative back">
                         <h3 class="card-script-title" style="font-size: 2.8rem; margin-bottom: 5px;">Venue Location</h3>
                         <div class="map-wrapper">
-                            <iframe src="https://maps.google.com/maps?q=Kollam,Kerala&t=&z=10&ie=UTF8&iwloc=&output=embed"></iframe>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3941.9669206830017!2d76.67177197501715!3d8.882667491172926!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zOMKwNTInNTcuNiJOIDc2wrA0MCcyNy43IkU!5e0!3m2!1sen!2sin!4v1783270359590!5m2!1sen!2sin" ></iframe>
                         </div>
                         <div class="flip-hint"><i class="fa-solid fa-rotate-left"></i> Tap to go back</div>
                     </div>
@@ -1287,7 +1282,7 @@
                             <div class="line"></div>
                             <div class="date-wrap">
                                 <span class="month">AUG</span>
-                                <span class="day">20</span>
+                                <span class="day">30</span>
                                 <span class="year">2026</span>
                             </div>
                             <div class="line"></div>
@@ -1331,10 +1326,12 @@
             
             <form class="rsvp-form" id="rsvpForm">
                 <div class="input-group">
-                    <input type="text" placeholder="👤 Enter Your Name" required>
+                    <!-- Ensure id="guestName" is here -->
+                    <input type="text" id="guestName" placeholder="👤 Enter Your Name" required>
                 </div>
                 <div class="input-group">
-                    <select required>
+                    <!-- Ensure id="attendanceStatus" is here -->
+                    <select id="attendanceStatus" required>
                         <option value="" disabled selected>✉️ Will You Attend?</option>
                         <option value="yes">Yes, I will attend</option>
                         <option value="no">Sorry, I can't make it</option>
@@ -1355,10 +1352,34 @@
 <!-- Interaction Script -->
   <script>
     // --- 1. FORM & ZOOM PREVENTION LOGIC ---
-    document.getElementById('rsvpForm').addEventListener('submit', function(e) {
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwFqLqO9LueCNvS1r454hmtJGeY2yTUKTjZFi7NMN8-s21l_lMUYQ0A_-m0NiZDplik/exec'; // <-- Paste your long Google URL here
+    const form = document.getElementById('rsvpForm');
+
+    form.addEventListener('submit', e => {
         e.preventDefault();
-        alert('Thank you! Your RSVP has been submitted.');
-        this.reset();
+        
+        // Change button text so the user knows it is sending
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = 'Sending...';
+
+        // Gather the form data
+        const formData = new FormData();
+        formData.append('name', document.getElementById('guestName').value);
+        formData.append('status', document.getElementById('attendanceStatus').value);
+
+        // Send it to Google Sheets
+        fetch(scriptURL, { method: 'POST', body: formData })
+            .then(response => {
+                alert('Thank you! Your RSVP has been saved.');
+                form.reset();
+                submitBtn.innerHTML = originalText;
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                alert('Oops! Something went wrong. Please try again.');
+                submitBtn.innerHTML = originalText;
+            });
     });
 
     document.addEventListener('gesturestart', function (e) {
