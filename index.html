@@ -107,7 +107,7 @@
         }
         
         .script-font {
-            font-family: 'Great Vibes', cursive;
+            font-family: 'Cormorant Garamond', serif;
             font-size: 3.5rem;
             color: var(--text-dark-green);
             font-weight: 400;
@@ -714,6 +714,195 @@
     text-transform: uppercase;
     letter-spacing: 1.5px;
 }
+
+/* --- Refined Elegant Events Section --- */
+        .detailed-events-section {
+            position: relative;
+            padding: 80px 20px;
+            width: 100%;
+            background-image: #eee5d0, url('bg2.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Minimalist Header */
+        .events-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .events-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 5px;
+            color: #324c20;
+            text-transform: uppercase;
+            margin-bottom: -5px;
+        }
+
+        .gold-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 200px;
+            margin: 10px auto 0;
+        }
+
+        .gold-divider .line {
+            height: 1px;
+            width: 100%;
+            background: linear-gradient(to right, transparent, rgba(179, 155, 94, 0.5), transparent);
+        }
+
+        /* --- Creative Glassmorphism Cards --- */
+        .event-card-creative {
+            border: 1px solid rgba(226, 212, 166, 0.15);
+            border-radius: 12px;
+            padding: 40px 20px 30px;
+            margin-bottom: 40px;
+            background: #324c20;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            position: relative;
+            text-align: center; /* Centers all content */
+        }
+
+        /* Top glowing accent line */
+        .event-card-creative::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(226, 212, 166, 0.5), transparent);
+        }
+
+        /* --- Editorial Date Block --- */
+        .card-date-block {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-date-block .line {
+            height: 1px;
+            width: 40px;
+            background-color: rgba(226, 212, 166, 0.3);
+        }
+
+        .date-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1;
+        }
+
+        .date-wrap .month {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.55rem;
+            letter-spacing: 3px;
+            color: rgba(226, 212, 166, 0.8);
+            text-transform: uppercase;
+        }
+
+        .date-wrap .day {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem;
+            color: #e2d4a6;
+            margin: 5px 0;
+        }
+
+        .date-wrap .year {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.55rem;
+            letter-spacing: 3px;
+            color: rgba(226, 212, 166, 0.8);
+        }
+
+        /* --- Flowing Script Title --- */
+        .card-script-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            color: #fff;
+            font-weight: 400;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+        }
+
+        /* --- Symmetrical Info Grid --- */
+        .card-info-grid {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            margin-bottom: 30px;
+        }
+
+        .info-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 10px;
+        }
+
+        .info-col i {
+            color: rgba(226, 212, 166, 0.8);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .info-col h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            color: rgba(244, 241, 225, 0.6);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .info-col p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            color: #f4f1e1;
+            line-height: 1.3;
+        }
+
+        .vertical-divider {
+            width: 1px;
+            height: 50px;
+            background-color: rgba(226, 212, 166, 0.2);
+        }
+
+        /* --- Dress Code Footer --- */
+        .card-dress-code {
+            display: inline-block;
+            border-top: 1px solid rgba(226, 212, 166, 0.2);
+            border-bottom: 1px solid rgba(226, 212, 166, 0.2);
+            padding: 12px 30px;
+            margin-top: 10px;
+        }
+
+        .dc-label {
+            display: block;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.55rem;
+            letter-spacing: 3px;
+            color: rgba(226, 212, 166, 0.7);
+            margin-bottom: 5px;
+        }
+
+        .dc-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #e2d4a6;
+        }
         
         
 </style>
@@ -855,6 +1044,98 @@
 
             <button class="btn">VIEW ALL PHOTOS </button>
         </section> 
+        <!-- --- DETAILED EVENTS CARDS SECTION --- -->
+        <section id="detailed-events" class="detailed-events-section">
+            
+            <div class="events-header">
+                <p class="events-subtitle">C E L E B R A T I O N S</p>
+                <h2 class="script-font" style="color: #324c20; font-size: 4rem; margin-top: -15px; margin-bottom: 5px;">Events</h2>
+                
+                <div class="gold-divider">
+                    <div class="line"></div>
+                    <i class="fa-solid fa-diamond" style="font-size: 8px; color: #324c20;"></i>
+                    <div class="line"></div>
+                </div>
+            </div>
+
+            <!-- Event Card 1 -->
+            <div class="event-card-creative">
+                <!-- Top: Editorial Date Block -->
+                <div class="card-date-block">
+                    <div class="line"></div>
+                    <div class="date-wrap">
+                        <span class="month">MAY</span>
+                        <span class="day">25</span>
+                        <span class="year">2025</span>
+                    </div>
+                    <div class="line"></div>
+                </div>
+                
+                <!-- Middle: Flowing Title -->
+                <h3 class="card-script-title">Haldi Ceremony</h3>
+                
+                <!-- Bottom: Symmetrical Info Grid -->
+                <div class="card-info-grid">
+                    <div class="info-col">
+                        <i class="fa-regular fa-clock"></i>
+                        <h4>Time</h4>
+                        <p>11:00 AM Onwards</p>
+                    </div>
+                    
+                    <div class="vertical-divider"></div>
+                    
+                    <div class="info-col">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <h4>Venue</h4>
+                        <p>Bride's Residence</p>
+                    </div>
+                </div>
+
+                <!-- Footer: Dress Code -->
+                <div class="card-dress-code">
+                    <span class="dc-label">DRESS CODE</span>
+                    <p class="dc-text">Yellow & Mustard</p>
+                </div>
+            </div>
+
+            <!-- Event Card 2 -->
+            <div class="event-card-creative">
+                <div class="card-date-block">
+                    <div class="line"></div>
+                    <div class="date-wrap">
+                        <span class="month">MAY</span>
+                        <span class="day">27</span>
+                        <span class="year">2025</span>
+                    </div>
+                    <div class="line"></div>
+                </div>
+                
+                <h3 class="card-script-title">Wedding Ceremony</h3>
+                
+                <div class="card-info-grid">
+                    <div class="info-col">
+                        <i class="fa-regular fa-clock"></i>
+                        <h4>Muhurtham</h4>
+                        <p>11:00 AM — 11:45 AM</p>
+                    </div>
+                    
+                    <div class="vertical-divider"></div>
+                    
+                    <div class="info-col">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <h4>Venue</h4>
+                        <p>Grand Palace Auditorium</p>
+                    </div>
+                </div>
+
+                <div class="card-dress-code">
+                    <span class="dc-label">DRESS CODE</span>
+                    <p class="dc-text">Traditional Kerala Wear</p>
+                </div>
+            </div>
+
+        </section>
+        <!-- --- END DETAILED EVENTS CARDS --- -->
         <div id="rsvp" >
             <h2 class="section1-title">Kindly RSVP</h2>
             <p class="section-desc" style="font-size: 1.75rem; margin-left: 7%;">Your presence and blessings mean the world to us.</p>
@@ -997,7 +1278,7 @@
 
 
     // --- 5. GALLERY AUTO-SLIDER LOGIC ---
-    let galleryAssets = ["GAL1.jpeg", "GAL2.jpeg", "GAL3.jpeg", "GAL4.jpeg", "GAL5.jpeg", "GAL6.PNG"];
+    let galleryAssets = ["GAL1.jpeg", "GAL2.jpeg", "GAL3.jpeg", "GAL4.jpeg", "GAL5.jpeg", "GAL6.png"];
 
     function rotateGallery(direction) {
         const img1 = document.getElementById('gal-img-1');
