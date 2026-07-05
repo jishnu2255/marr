@@ -2,15 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Document</title>
 </head>
 <style>
-    html, body {
-    /* Allow normal scrolling but disable pinch-zoom */
-    touch-action: pan-x pan-y; 
-}
     *{
         margin: 0;
         padding: 0;
@@ -248,7 +245,7 @@
         .timeline {
             position: relative;
             margin: 22px auto;
-            max-width: min(300px, 90vw);
+            max-width: min(236px, 90vw);
         }
         .timeline::before {
             content: '';
@@ -425,10 +422,93 @@
             color: rgb(8, 53, 8);
             margin-top: 48px;
         }
+        /* --- FALLING LEAVES EFFECT --- */
+.leaves-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Crucial: lets the user click through the leaves */
+    z-index: 9999; /* Keeps the leaves on top of everything */
+    overflow: hidden;
+}
+
+.leaf {
+    position: absolute;
+    top: -10%;
+    color: rgba(11, 49, 3, 0.7); /* A soft transparent green matching your theme */
+    /* Combines a falling animation with a swaying animation */
+    animation: fall linear infinite, sway ease-in-out infinite alternate;
+}
+
+/* Controls the downward movement and rotation */
+@keyframes fall {
+    0% {
+        top: -10%;
+        transform: rotate(0deg);
+    }
+    100% {
+        top: 110%;
+        transform: rotate(360deg);
+    }
+}
+
+/* Controls the side-to-side floating motion */
+@keyframes sway {
+    0% {
+        transform: translateX(0px) rotate(0deg);
+    }
+    100% {
+        transform: translateX(40px) rotate(45deg);
+    }
+}
+#music-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(11, 49, 3, 0.7); /* Transparent dark green matching your theme */
+    color: #e2d4a6; /* Gold icon */
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    z-index: 9999; /* Ensures it sits above all background images */
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+/* --- Welcome Splash Screen --- */
+        #welcome-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #0b3103; /* Replaced variable with a hardcoded dark green */
+            background-image: url('bg2.png'); 
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: multiply; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999; 
+            transition: opacity 1s ease-out, visibility 1s; 
+        }
+        
         
 </style>
 
 <body >
+    <audio id="bg-music" loop>
+    <source src="bg-sound.mp3" type="audio/mpeg">
+</audio>
+    <div id="falling-leaves" class="leaves-container"></div>
     <div id="desktop-warning">
         <h1>Mobile View Required</h1>
         <p>Please use a mobile device or switch to mobile view in your browser's developer tools for a better display.</p>
@@ -436,8 +516,15 @@
 
     <!-- Mobile Application Wrapper -->
     <div id="mobile-app">
+        <div id="welcome-screen">
+            <h1 class="script-font" style="color: #e2d4a6; margin-bottom: 20px;">Arathy & Amal</h1>
+            <p style="color: #fff; font-family: 'Montserrat', sans-serif; letter-spacing: 2px; margin-bottom: 30px; font-size: 0.8rem;">YOU ARE INVITED</p>
+            <button id="open-invite-btn" class="btn" style="background-color: transparent; border: 2px solid #e2d4a6; color: #e2d4a6;">
+                TAP TO OPEN <i class="fa-solid fa-envelope-open-text"></i>
+            </button>
+        </div>
         
-    
+    <button class="icon-btn" id="music-btn"><i class="fa-solid fa-music"></i></button>
     <div class="first"></div>
       
       
@@ -527,6 +614,7 @@
           
 
         </div>
+        
 </div>
 </body>
 <!-- Interaction Script -->
@@ -543,7 +631,7 @@
             // In a full production build, this would rotate the src attributes or slide a flex container.
             console.log('Rotated gallery by: ' + direction);
         }
-  
+    
     // Prevent pinch-to-zoom on iOS
     document.addEventListener('gesturestart', function (e) {
         e.preventDefault();
@@ -565,5 +653,80 @@
         alert('Thank you! Your RSVP has been submitted.');
         this.reset();
     });
+
+    // --- LEAF FALLING LOGIC ---
+    function createLeaves() {
+        const container = document.getElementById('falling-leaves');
+        const numLeaves = 15; // Change this to increase/decrease the amount of leaves
+
+        for (let i = 0; i < numLeaves; i++) {
+            const leaf = document.createElement('i');
+            // Use FontAwesome leaf icon
+            leaf.classList.add('fa-solid', 'fa-leaf', 'leaf');
+            
+            // Randomize horizontal starting position
+            leaf.style.left = Math.random() * 100 + 'vw';
+            
+            // Randomize fall duration (between 6 and 12 seconds)
+            const fallDuration = (Math.random() * 6 + 6) + 's';
+            
+            // Randomize sway duration (between 2 and 4 seconds)
+            const swayDuration = (Math.random() * 2 + 2) + 's';
+            
+            // Randomize start delay so they don't all fall at once
+            const delay = (Math.random() * 10) + 's';
+
+            // Randomize leaf size (between 12px and 22px)
+            const size = (Math.random() * 10 + 12) + 'px';
+            leaf.style.fontSize = size;
+
+            // Apply randomized styles
+            leaf.style.animationDuration = `${fallDuration}, ${swayDuration}`;
+            leaf.style.animationDelay = `${delay}, ${delay}`;
+            
+            container.appendChild(leaf);
+        }
+    }
+    
+    // Start generating leaves once the page loads
+    window.addEventListener('load', createLeaves);
+    // --- BACKGROUND MUSIC & WELCOME SCREEN LOGIC ---
+    const musicBtn = document.getElementById('music-btn');
+    const bgMusic = document.getElementById('bg-music');
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const openBtn = document.getElementById('open-invite-btn');
+    
+    let isMusicPlaying = false;
+
+    // 1. Handle the "Tap to Open" button
+    openBtn.addEventListener('click', function() {
+        // Play the music
+        bgMusic.play().then(() => {
+            isMusicPlaying = true;
+            musicBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        }).catch(error => {
+            console.log("Audio play failed:", error);
+        });
+
+        // Fade out and hide the welcome screen
+        welcomeScreen.style.opacity = '0';
+        setTimeout(() => {
+            welcomeScreen.style.visibility = 'hidden';
+            welcomeScreen.style.display = 'none';
+        }, 1000); // Waits 1 second for the fade transition to finish
+    });
+
+    // 2. Handle the top-left pause/play button
+    musicBtn.addEventListener('click', function() {
+        if (isMusicPlaying) {
+            bgMusic.pause();
+            this.innerHTML = '<i class="fa-solid fa-music"></i>';
+        } else {
+            bgMusic.play();
+            this.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        }
+        isMusicPlaying = !isMusicPlaying;
+    });
+    
 </script>
 </html>
