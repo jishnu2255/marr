@@ -986,6 +986,86 @@
             0%, 100% { opacity: 0.5; }
             50% { opacity: 1; }
         }
+        /* --- Pinterest Style Gallery Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(6, 23, 2, 0.85); /* Transparent dark green */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 999999;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end; /* Anchors the popup to the bottom */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s;
+        }
+
+        /* Active state toggled by JavaScript */
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: #0b3103; /* Deep green */
+            width: 100%;
+            height: 85vh; /* Takes up 85% of the screen height */
+            border-top-left-radius: 25px;
+            border-top-right-radius: 25px;
+            padding: 25px 15px;
+            position: relative;
+            border-top: 2px solid #b39b5e;
+            overflow-y: auto;
+            
+            /* Slide up animation starting state */
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0); /* Slides into place */
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: rgba(226, 212, 166, 0.15);
+            color: #e2d4a6;
+            border: 1px solid rgba(226, 212, 166, 0.3);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        /* --- CSS Magic: Pinterest Masonry Layout --- */
+        .masonry-gallery {
+            column-count: 2; /* Creates two columns */
+            column-gap: 12px;
+            padding-bottom: 40px;
+        }
+
+        .masonry-gallery img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: block; 
+            border: 1px solid rgba(226, 212, 166, 0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            /* Prevents images from getting awkwardly split across columns */
+            break-inside: avoid; 
+        }
         
         
 </style>
@@ -1120,7 +1200,8 @@
                 <button class="arrow-btn" onclick="manualRotate(1)">&#10095;</button>
             </div>
 
-            <button class="btn">VIEW ALL PHOTOS </button>
+           <button class="btn" onclick="openGalleryModal()">VIEW ALL PHOTOS </button>
+           
         </section> 
         <!-- --- DETAILED EVENTS CARDS SECTION --- -->
         <section id="detailed-events" class="detailed-events-section">
@@ -1353,6 +1434,25 @@
           
 
         </div>
+        <!-- --- PINTEREST STYLE GALLERY MODAL --- -->
+        <div id="gallery-modal" class="modal-overlay">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeGalleryModal()"><i class="fa-solid fa-xmark"></i></button>
+                
+                <h3 class="script-font" style="font-size: 3rem; text-align: center; color: #e2d4a6; margin-top: 5px; margin-bottom: 25px;">Our Memories</h3>
+                
+                <!-- Masonry Grid -->
+                <div class="masonry-gallery">
+                    <img src="GAL1.jpeg" alt="Gallery Image 1">
+                    <img src="GAL2.jpeg" alt="Gallery Image 2">
+                    <img src="GAL3.jpeg" alt="Gallery Image 3">
+                    <img src="GAL4.jpeg" alt="Gallery Image 4">
+                    <img src="GAL5.jpeg" alt="Gallery Image 5">
+                    <img src="GAL6.PNG" alt="Gallery Image 6">
+                    <!-- You can keep adding more <img src="..."> tags here infinitely! -->
+                </div>
+            </div>
+        </div>
         
 </div>
 </body>
@@ -1555,5 +1655,17 @@
             eventObserver.observe(item);
         });
     });
+    // --- 7. PINTEREST GALLERY MODAL LOGIC ---
+    function openGalleryModal() {
+        document.getElementById('gallery-modal').classList.add('active');
+        // Locks the background so the user doesn't accidentally scroll the main page
+        document.body.style.overflow = 'hidden'; 
+    }
+
+    function closeGalleryModal() {
+        document.getElementById('gallery-modal').classList.remove('active');
+        // Unlocks the background when closed
+        document.body.style.overflow = 'auto'; 
+    }
 </script>
 </html>
